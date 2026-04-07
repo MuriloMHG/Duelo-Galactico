@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Space Duel 1v1</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas" width="960" height="540"></canvas>
+
+    <!-- HUD do jogo -->
+    <div id="hud">
+      <div id="p1-hud">P1 (AZUL) - Vida: <span id="p1-life">100</span></div>
+      <div id="p2-hud">P2 (VERMELHO/BOT) - Vida: <span id="p2-life">100</span></div>
+    </div>
+
+    <!-- MENU PRINCIPAL -->
+    <div id="main-menu" class="menu-overlay">
+      <div class="menu-card">
+        <h1 class="game-title">SPACE DUEL<br /><span>1v1</span></h1>
+        <p class="menu-subtitle">
+          Escolha um modo de jogo:
+        </p>
+        <div class="menu-buttons">
+          <button id="btn-bot" class="menu-btn">Jogar vs BOT</button>
+          <button id="btn-local" class="menu-btn primary">Multiplayer Local (1v1)</button>
+          <button id="btn-online" class="menu-btn">Multiplayer Online</button>
+        </div>
+        <p class="menu-hint">
+          Durante o jogo: ESC para voltar ao menu / R para reiniciar partida
+        </p>
+      </div>
+    </div>
+
+    <!-- MENU DE DIFICULDADE DO BOT -->
+    <div id="bot-menu" class="menu-overlay" style="display: none;">
+      <div class="menu-card">
+        <h2 class="menu-subtitle" style="margin-bottom: 8px;">Modo vs BOT</h2>
+        <p class="menu-subtitle">
+          Escolha a dificuldade do BOT:
+        </p>
+        <div class="menu-buttons">
+          <button class="menu-btn" data-bot-diff="easy">Facil</button>
+          <button class="menu-btn" data-bot-diff="medium">Medio</button>
+          <button class="menu-btn" data-bot-diff="hard">Dificil</button>
+          <button class="menu-btn primary" data-bot-diff="insane">Insano</button>
+        </div>
+        <button id="btn-bot-back" class="menu-btn" style="margin-top: 12px;">
+          Voltar
+        </button>
+        <p class="menu-hint">
+          Voce controla a nave azul (P1). O BOT controlara a nave rosa.
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <script src="http://localhost:3000/nexus-game-sdk.js"></script>
+  <script src="bot.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
