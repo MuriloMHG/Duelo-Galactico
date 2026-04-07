@@ -7,6 +7,8 @@ const p2LifeSpan = document.getElementById("p2-life");
 
 const mainMenuEl = document.getElementById("main-menu");
 const botMenuEl = document.getElementById("bot-menu");
+const controlsOverlayEl = document.getElementById("controls-overlay");
+const controlsContentEl = document.getElementById("controls-content");
 
 const btnBot = document.getElementById("btn-bot");
 const btnLocal = document.getElementById("btn-local");
@@ -118,6 +120,7 @@ let botDifficulty = "medium"; // padrão
 let lastTime = 0;
 let gameOver = false;
 let winner = null;
+let controlsVisible = false;
 
 // Controlador do BOT (instanciado ao entrar no modo vs BOT)
 let botBrain = null;
@@ -446,7 +449,7 @@ function drawMenuScene() {
 // Cena: Online (placeholder)
 function drawOnlineScene() {
   drawTextScreen("Multiplayer Online", [
-    "Este modo será implementado em um módulo futuro.",
+    "Comming Soon!",
   ]);
 }
 
@@ -594,6 +597,47 @@ function draw() {
 }
 
 // Sistema de cenas
+function showControlsOverlay(mode) {
+  if (!controlsOverlayEl || !controlsContentEl) return;
+  const showP2 = mode === "local";
+  controlsContentEl.innerHTML = `
+    <div class="controls-list">
+      <div class="controls-row">
+        <span class="controls-label">P1</span>
+        <span class="key">W</span>
+        <span class="key">A</span>
+        <span class="key">S</span>
+        <span class="key">D</span>
+        <span class="key">F</span>
+      </div>
+      ${showP2 ? `
+      <div class="controls-row">
+        <span class="controls-label">P2</span>
+        <span class="key">&uarr;</span>
+        <span class="key">&larr;</span>
+        <span class="key">&darr;</span>
+        <span class="key">&rarr;</span>
+        <span class="key">L</span>
+      </div>` : ""}
+    </div>
+  `;
+  controlsOverlayEl.style.display = "flex";
+  controlsVisible = true;
+}
+
+function hideControlsOverlay() {
+  if (!controlsOverlayEl) return;
+  controlsOverlayEl.style.display = "none";
+  controlsVisible = false;
+}
+
+function maybeDismissControls() {
+  if (!controlsVisible) return;
+  hideControlsOverlay();
+}
+
+window.addEventListener("keydown", maybeDismissControls);
+canvas.addEventListener("pointerdown", maybeDismissControls);
 function setScene(scene) {
   currentScene = scene;
 
@@ -606,10 +650,12 @@ function setScene(scene) {
     player2.setAsHuman();
     botBrain = null;
     resetGame();
+    showControlsOverlay("local");
   } else if (scene === "menu") {
     hudEl.style.display = "none";
     mainMenuEl.style.display = "flex";
     botMenuEl.style.display = "none";
+    hideControlsOverlay();
     botBrain = null;
   } else if (scene === "bot") {
     // vs BOT
@@ -631,10 +677,12 @@ function setScene(scene) {
       console.warn("BotAI não encontrado. Verifique se bot.js foi carregado.");
     }
     resetGame();
+    showControlsOverlay("bot");
   } else if (scene === "online") {
     hudEl.style.display = "none";
     mainMenuEl.style.display = "none";
     botMenuEl.style.display = "none";
+    hideControlsOverlay();
     botBrain = null;
   }
 }
