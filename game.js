@@ -447,11 +447,6 @@ function drawMenuScene() {
 function drawOnlineScene() {
   drawTextScreen("Multiplayer Online", [
     "Este modo será implementado em um módulo futuro.",
-    "",
-    "Você poderá criar ou entrar em uma sala 1v1",
-    "usando um servidor Node.js + WebSockets.",
-    "",
-    "Pressione ESC para voltar ao menu.",
   ]);
 }
 
